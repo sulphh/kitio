@@ -1,1 +1,0 @@
-Kit.io is a web-based application that simplifies the process of creating accurate wiring diagrams for audiovisual setups. It is built using Node.js for the backend, MongoDB for database management, and React for the frontend.
