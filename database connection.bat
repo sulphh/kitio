@@ -1,1 +1,0 @@
-mongosh "mongodb://localhost/kitio" --username sulphh --password password1234
