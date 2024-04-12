@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const colors = ['Red', 'Blue', 'Green', 'Yellow', 'Black'];
 
 const categoryColorMapping = {
@@ -33,23 +32,21 @@ const cableCategoryMapping = {
   'EtherCON': 'Network',
 };
 
-// Enhance connectionSchema to determine color based on cableType
 const connectionSchema = new mongoose.Schema({
   name: { type: String, required: true },
   type: { type: String, required: true },
   cableType: { 
     type: String, 
     required: true,
-    enum: Object.keys(cableCategoryMapping), // Dynamically generate enum from keys
+    enum: Object.keys(cableCategoryMapping), 
   },
   color: {
     type: String,
     enum: colors,
     required: true,
     default: function() {
-      // Determine the category based on the cableType, then get the default color
       const category = cableCategoryMapping[this.cableType];
-      return categoryColorMapping[category] || 'Unknown'; // Provide a fallback color
+      return categoryColorMapping[category] || 'Unknown'; 
     },
   },
 }, { _id: false });

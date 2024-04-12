@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Equipment = require('../models/Equipment');
+const { authenticate } = require('../utils/authMiddleware'); // Ensure this is imported correctly
 
-router.get('/equipment', async (req, res) => {
+// Get all equipment - Protected route
+router.get('/equipment', authenticate, async (req, res) => {
   try {
     const equipmentList = await Equipment.find({});
     res.json(equipmentList);
@@ -11,7 +13,8 @@ router.get('/equipment', async (req, res) => {
   }
 });
 
-router.get('/equipment/:id', async (req, res) => {
+// Get a single piece of equipment - Protected route
+router.get('/equipment/:id', authenticate, async (req, res) => {
   try {
     const equipment = await Equipment.findById(req.params.id);
     if (!equipment) {
@@ -23,10 +26,9 @@ router.get('/equipment/:id', async (req, res) => {
   }
 });
 
-// POST a new piece of equipment
-router.post('/equipment', async (req, res) => {
+// Create a new piece of equipment - Protected route
+router.post('/equipment', authenticate, async (req, res) => {
   const newEquipment = new Equipment(req.body);
-
   try {
     const savedEquipment = await newEquipment.save();
     res.status(201).json(savedEquipment);
@@ -35,7 +37,8 @@ router.post('/equipment', async (req, res) => {
   }
 });
 
-router.put('/equipment/:id', async (req, res) => {
+// Update existing equipment - Protected route
+router.put('/equipment/:id', authenticate, async (req, res) => {
   try {
     const updatedEquipment = await Equipment.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedEquipment) {
@@ -47,7 +50,8 @@ router.put('/equipment/:id', async (req, res) => {
   }
 });
 
-router.delete('/equipment/:id', async (req, res) => {
+// Delete a piece of equipment - Protected route
+router.delete('/equipment/:id', authenticate, async (req, res) => {
   try {
     const deletedEquipment = await Equipment.findByIdAndDelete(req.params.id);
     if (!deletedEquipment) {
