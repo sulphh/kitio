@@ -6,6 +6,8 @@ const connectToDB = require('./db');
 const equipmentRoutes = require('./routes/equipmentRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rateLimit = require('express-rate-limit');
+const { logger, morganMiddleware } = require('./utils/logger'); // adjust path as necessary
+const errorHandler = require('./utils/errorHandler'); // adjust path as necessary
 const app = express();
 
 const apiLimiter = rateLimit({
@@ -17,6 +19,8 @@ const apiLimiter = rateLimit({
 app.use(helmet()); 
 app.use(cors());
 
+app.use(morganMiddleware); 
+
 app.use(express.json());
 
 app.use('/api', apiLimiter);
@@ -24,9 +28,14 @@ app.use('/api', apiLimiter);
 app.use('/api', equipmentRoutes);
 app.use('/api/users', userRoutes);
 
+
+app.use(errorHandler);
+
 connectToDB().then(() => {
   const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => console.log(`MongoDB Connected. Server running on port ${PORT}`));
+  app.listen(PORT, () => {
+    logger.info(`MongoDB Connected. Server running on port ${PORT}`); 
+  });
 }).catch(err => {
-  console.error('Failed to start the server due to database connection issues', err);
+  logger.error('Failed to start the server due to database connection issues: ' + err);
 });
