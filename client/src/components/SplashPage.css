@@ -1,0 +1,56 @@
+/* SplashPage.css */
+.splash-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('./Kitio.jpeg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.content {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent background for better readability */
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.title {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.tagline {
+    font-size: 1.5rem;
+    color: gray;
+    margin-bottom: 2rem;
+}
+
+.buttons .btn {
+    padding: 0.75rem 2rem;
+    margin-right: 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.login {
+    background-color: #007BFF;
+    color: white;
+}
+
+.login:hover {
+    background-color: #0056b3;
+}
+
+.register {
+    background-color: #28a745;
+    color: white;
+}
+
+.register:hover {
+    background-color: #1e7e34;
+}

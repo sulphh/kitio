@@ -1,30 +1,27 @@
+// App.js
 import React from 'react';
-import EquipmentItem from './EquipmentItem';
-import DropArea from './DropArea';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import SplashPage from './components/SplashPage';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 
 function App() {
-  // Updated equipment array
-  const equipment = [
-    { id: 'visionMixer', name: 'Vision Mixer' },
-    { id: 'microphone', name: 'Microphone' },
-    { id: 'camera', name: 'Camera' },
-  ];
-
-  const handleDrop = (itemId) => {
-    console.log('Dropped item:', itemId);
-  };
-
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div>
-        {equipment.map(item => (
-          <EquipmentItem key={item.id} id={item.id} name={item.name} />
-        ))}
-        <DropArea onDrop={handleDrop} />
+    <Router>
+      <Navbar />
+      <div style={{ display: 'flex' }}>
+        <Sidebar />
+        <div style={{ flex: 1 }}>
+          <Routes>
+            <Route path="/" element={<SplashPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Routes>
+        </div>
       </div>
-    </DndProvider>
+    </Router>
   );
 }
 

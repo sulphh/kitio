@@ -6,20 +6,31 @@ const connectToDB = require('./db');
 const equipmentRoutes = require('./routes/equipmentRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rateLimit = require('express-rate-limit');
-const { logger, morganMiddleware } = require('./utils/logger'); // adjust path as necessary
-const errorHandler = require('./utils/errorHandler'); // adjust path as necessary
+const { logger, morganMiddleware } = require('./utils/logger');
+const errorHandler = require('./utils/errorHandler');
 const app = express();
 
 const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, 
-    max: 15, 
+    windowMs: 15 * 60 * 1000,
+    max: 15,
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 
-app.use(helmet()); 
-app.use(cors());
+app.use(helmet());
 
-app.use(morganMiddleware); 
+const corsOptions = {
+  origin: 'http://localhost:3000', // Default to development settings
+  credentials: true, // Allow cookies and authentication headers
+};
+
+if (process.env.NODE_ENV === 'production') {
+  corsOptions.origin = 'https://yourproductionfrontendurl.com'; // Production front-end URL
+  corsOptions.credentials = false; // Typically, credentials are not needed for general production use unless specifically required
+}
+
+app.use(cors(corsOptions));
+
+app.use(morganMiddleware);
 
 app.use(express.json());
 
@@ -28,13 +39,12 @@ app.use('/api', apiLimiter);
 app.use('/api', equipmentRoutes);
 app.use('/api/users', userRoutes);
 
-
 app.use(errorHandler);
 
 connectToDB().then(() => {
-  const PORT = process.env.PORT || 3000;
+  const PORT = 3005;
   app.listen(PORT, () => {
-    logger.info(`MongoDB Connected. Server running on port ${PORT}`); 
+    logger.info(`MongoDB Connected. Server running on port ${PORT}`);
   });
 }).catch(err => {
   logger.error('Failed to start the server due to database connection issues: ' + err);

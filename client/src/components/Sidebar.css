@@ -1,0 +1,23 @@
+/* Sidebar.css */
+.sidebar {
+    width: 250px; /* Fixed width */
+    background-color: #343a40; /* Dark grey background */
+    color: white; /* White text color */
+    height: 100vh; /* Full viewport height */
+    padding: 20px; /* Uniform padding */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Shadow for depth */
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none; /* Removes underline */
+    color: white; /* Ensures text is white */
+    font-size: 1.1rem; /* Increases font size for better readability */
+    margin-bottom: 10px; /* Space between links */
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #495057; /* Slightly lighter grey on hover */
+}
